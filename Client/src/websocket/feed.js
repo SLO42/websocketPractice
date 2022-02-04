@@ -2,25 +2,31 @@ import React, { useState, useCallback, useEffect } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import UserForm from '../user';
 
+const url = 'ws://localhost:3030';
+
 export const WebSocketDemo = () => {
   //Public API that will echo messages sent to it back to the client
   const [socketUrl, setSocketUrl] = useState('ws://localhost:3030');
   const [messageHistory, setMessageHistory] = useState([]);
   const [msg, setMsg] = useState("");
   const [user, setUser] = useState("");
+  const [isSet, setSet] = useState(false);
 
   const {
-    sendMessage,
+    sendJsonMessage,
     lastMessage,
     readyState,
 
   } = useWebSocket(socketUrl, {reconnectInterval: 5, reconnectAttempts: 500, retryOnError: true});
 
   const ifUser = () => {
-      if (user.length){
+      if (isSet && user.length){
           return 1;
       }
       return 0;
+  }
+  const handleSetUsername = () => {
+      setSet(!isSet);
   }
 
   useEffect(() => {
@@ -30,13 +36,18 @@ export const WebSocketDemo = () => {
   }, [lastMessage, setMessageHistory]);
 
   const handleClickSendMessage = () => {
-    sendMessage(msg);
+    const data = {user, msg, date: new Date()}
+    sendJsonMessage(data);
     lastMessage = msg;
   };
 
   const handleRefresh = () => {
-
-    setSocketUrl(`ws://localhost:3030`);
+    if (socketUrl == url){
+      setSocketUrl(`${url}/`);
+    }
+    else {
+      setSocketUrl(url);
+    }
   }
 
   const handleChange = (event) => {
@@ -89,6 +100,7 @@ export const WebSocketDemo = () => {
          : 
          <div>
              <UserForm user={user} onChange={handleChangeUser} />
+             <button onClick={() => handleSetUsername()}>Set Username</button>
              </div>
              }
     </div>
