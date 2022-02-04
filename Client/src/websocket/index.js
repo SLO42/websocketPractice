@@ -1,1 +1,1 @@
-export { WebSocketDemo } from "./feed";
+export { Chat } from "./chat";

@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import UserForm from '../user';
+import { Feed } from './feed';
 
 const url = 'ws://localhost:3030';
 
-export const WebSocketDemo = () => {
+export const Chat = () => {
   //Public API that will echo messages sent to it back to the client
   const [socketUrl, setSocketUrl] = useState('ws://localhost:3030');
   const [messageHistory, setMessageHistory] = useState([]);
@@ -38,11 +39,10 @@ export const WebSocketDemo = () => {
   const handleClickSendMessage = () => {
     const data = {user, msg, date: new Date()}
     sendJsonMessage(data);
-    lastMessage = msg;
   };
 
   const handleRefresh = () => {
-    if (socketUrl == url){
+    if (socketUrl === url){
       setSocketUrl(`${url}/`);
     }
     else {
@@ -92,10 +92,7 @@ export const WebSocketDemo = () => {
             <span>The WebSocket is currently {connectionStatus}</span>
         </div>
         {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
-        <ul>
-            {messageHistory
-            .map((message, idx) => <li key={idx}>{message ? `${message.data} `: null}</li>)}
-        </ul>
+        {messageHistory.length ? <Feed messageHistory={messageHistory} /> : null}
       </div>
          : 
          <div>
