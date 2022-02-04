@@ -30,11 +30,8 @@ app.get('/', (req, res) => {
 wss.on("connection", (ws) => {
     ws.on("message", (data) => {
         wss.clients.forEach(client => {
-            if (client !== ws && client.readyState === ws.OPEN){
+            if (client.readyState === ws.OPEN){
                 client.send(data);
-            }
-            else if (client === ws && client.readyState === ws.OPEN) {
-                client.send("we did it!");
             }
         })
     })
