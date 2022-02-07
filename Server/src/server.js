@@ -4,14 +4,13 @@ import expressWs from 'express-ws';
 const app = express();
 const port = 3030;
 
-let chatHistory = [];
+let userList = [];
 
 if (!server) {
     var server = app.listen(port, () => {
         console.log(`app running on port ${port}`)
     })
 }
-
 
 const eWS = expressWs(app, server);
 const wss = eWS.getWss();
@@ -34,20 +33,17 @@ app.get('/', (req, res) => {
 
 app.ws('/ws/:user?', (ws, req) => {
     const user = req.params.user.slice(1);
-    console.log(user)
     if (user){
-        if (!(chatHistory.includes(user))){
-            chatHistory.push(user)
+        if (!(userList.includes(user))){
+            userList.push(user)
             wss.clients.forEach(client => {
                 client.send(JSON.stringify({msg: `${user} Joined` }));
             })
         }
 
         ws.on('close', () => {
-            if (chatHistory.includes(user)){
-                console.log(user);
-                chatHistory.splice(chatHistory.indexOf(user), 1);
-                console.log(chatHistory);
+            if (userList.includes(user)){
+                userList.splice(userList.indexOf(user), 1);
                 wss.clients.forEach(client => {
                     client.send(JSON.stringify({msg: `${user} has left the chat`, userToRemove: user}));
                 })
