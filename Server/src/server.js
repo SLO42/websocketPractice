@@ -4,7 +4,7 @@ import expressWs from 'express-ws';
 const app = express();
 const port = 3030;
 
-let chat = [];
+let chatHistory = [];
 
 const server = app.listen(port, () => {
     console.log(`app running on port ${port}`)
@@ -14,7 +14,7 @@ const wss = eWS.getWss();
 
 app.use( (req, res, next) => {
     if (req.ws){
-        console.log("middleware for ws", req.ip);
+        console.log("middleware for ws");
     }
     req.testing = 'testing';
     return next();
@@ -29,11 +29,12 @@ app.get('/', (req, res) => {
 
 app.ws('/', (ws, req) => {
     ws.on('connection', stream => {
-        console.log(stream, "awoke");
-    })
+        console.log("awoke");
+    });
+
     ws.on('message', (data) => {
         const jsData = JSON.parse(data);
-        console.log(jsData);
+        chatHistory.push(jsData);
         wss.clients.forEach(client => {
             if (client.readyState === ws.OPEN){
                 if (data){
