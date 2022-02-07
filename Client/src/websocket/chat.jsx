@@ -3,16 +3,16 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import UserForm from '../user';
 import { Feed } from './feed';
 
-const url = 'ws://localhost:3030';
+const url = 'ws://localhost:3030/ws/:';
 
 export const Chat = () => {
   //Public API that will echo messages sent to it back to the client
-  const [socketUrl, setSocketUrl] = useState('ws://localhost:3030');
   const [messageHistory, setMessageHistory] = useState([]);
   const [msg, setMsg] = useState("");
   const [user, setUser] = useState("");
   const [isSet, setSet] = useState(false);
-
+  const [socketUrl, setSocketUrl] = useState(`ws://localhost:3030/ws/:`);
+  
   const {
     sendJsonMessage,
     lastMessage,
@@ -27,7 +27,10 @@ export const Chat = () => {
       return 0;
   }
   const handleSetUsername = () => {
+    if (user.length){
       setSet(!isSet);
+      setSocketUrl(socketUrl+user)
+    }
   }
 
   useEffect(() => {
@@ -42,11 +45,11 @@ export const Chat = () => {
   };
 
   const handleRefresh = () => {
-    if (socketUrl === url){
-      setSocketUrl(`${url}/`);
+    if (socketUrl === url+user){
+      setSocketUrl(`${url}${user}/`);
     }
     else {
-      setSocketUrl(url);
+      setSocketUrl(url+user);
     }
   }
 
