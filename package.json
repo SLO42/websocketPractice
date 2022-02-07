@@ -1,0 +1,26 @@
+{
+  "name": "websocket-wrapper",
+  "version": "1.0.0",
+  "description": "built to run both client and server in concurrency",
+  "main": ".",
+  "scripts": {
+    "start": "concurrently -n client,node \"cd Client && npm run start \" \" cd Server && npm run start \""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SLO42/websocketPractice.git"
+  },
+  "keywords": [
+    "websocket"
+  ],
+  "author": "slo42",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SLO42/websocketPractice/issues"
+  },
+  "homepage": "https://github.com/SLO42/websocketPractice#readme",
+  "dependencies": {
+    "concurrency": "^0.1.4",
+    "concurrently": "^7.0.0"
+  }
+}
