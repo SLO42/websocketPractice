@@ -20,7 +20,7 @@ app.use( (req, res, next) => {
         console.log("middleware for ws",);
     }
 
-    req.testing = 'testing';
+    req.testing = 'testing'; 
     return next();
 })
 
