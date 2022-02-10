@@ -19,8 +19,6 @@ app.use( (req, res, next) => {
 	if (req.ws){
 		console.log("middleware for ws",);
 	}
-
-	req.testing = "testing"; 
 	return next();
 });
 
@@ -28,8 +26,6 @@ app.get("/", (req, res) => {
 	console.log("get route", req.testing);
 	res.json({data: userList});
 });
-
-// pretty sure this on connection thing doesn't work as intended!
 
 app.ws("/ws/:user?", (ws, req) => {
 	const user = req.params.user.slice(1);
