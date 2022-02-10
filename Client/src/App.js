@@ -1,17 +1,15 @@
+import React from "react";
 import { Chat } from "./websocket";
 import "./App.css";
 
 function App() {
 
-
-	const IndexRoute = () => 
+	return (
 		<div className="App">
 			<header className="App-header">
 				<Chat />
 			</header>
-		</div>;
-	return (
-		<IndexRoute />
+		</div>
 	);
 }
 
