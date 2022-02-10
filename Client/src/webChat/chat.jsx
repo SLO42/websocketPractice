@@ -3,7 +3,7 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import UserForm from '../user';
 import { Feed } from './feed';
 
-const url = 'ws://localhost:3030/ws/:';
+const url = "ws://localhost:3030/ws/:";
 
 export const Chat = () => {
   //Public API that will echo messages sent to it back to the client
