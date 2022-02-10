@@ -1,4 +1,4 @@
-# websocketPractice
+# websocket Practice
 Started because of #100daysofCode
 2 node servers running a client and backend.
 client using React.js 
